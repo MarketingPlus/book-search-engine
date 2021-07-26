@@ -1,38 +1,36 @@
-//dependencies
 const express = require('express');
-const PORT = process.env.PORT || 3001;
+const { ApolloServer } = require('apollo-server-express');
+const path = require('path');
+
+const { typeDefs, resolvers } = require('./schemas');
+const { authMiddleware } = require('./utils/auth');
+
+const db = require('./config/connection');
+
 const app = express();
+const PORT = process.env.PORT || 3001;
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: authMiddleware,
+});
 
-const mongoose = require('mongoose');
-const routes = require('./routes');
+server.applyMiddleware({ app });
 
-
-//middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
-//static assets
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static("client/build"));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
-//MongoDB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks",
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-        useFindAndModify: false
-    });
-
-
-//routes
-app.use(routes);
-
-
-//start server
-app.listen(PORT, () => {
-    console.log(`🌎 ==> API server now on port ${PORT}!`);
+db.once('open', () => {
+  app.listen(PORT, () => {
+    console.log(`🌍 Now listening on localhost:${PORT}`)
+    console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+  });
 });
