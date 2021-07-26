@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
-import loadingIcon from '../images/spinner.svg'
 
 import Auth from '../utils/auth';
 
