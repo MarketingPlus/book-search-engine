@@ -47,3 +47,5 @@ class AuthService {
 }
 
 export default new AuthService();
+
+// Working properly
