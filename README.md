@@ -22,7 +22,7 @@ A mongoDB application that tracks budget which works both online and offline and
 ## LINKS 🔗
 
 [REPOSITORY](https://github.com/MarketingPlus/book-search-engine)
-[DEPLOYED](https://powerful-springs-59625.herokuapp.com/)
+[DEPLOYED](https://guarded-gorge-49042.herokuapp.com/)
 
 <a name="features"></a>
 
