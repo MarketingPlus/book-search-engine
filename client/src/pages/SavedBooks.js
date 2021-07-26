@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
+import loadingIcon from '../images/spinner.svg'
 
 import Auth from '../utils/auth';
 
@@ -46,6 +47,15 @@ const SavedBooks = () => {
       console.error(err);
     }
   };
+
+  // if data isn't here yet, say so
+  if (!userDataLength) {
+    return (
+      <div className='full-width'>
+        Loading your saved Books
+      </div>
+    );
+  }
 
   return (
     <>
